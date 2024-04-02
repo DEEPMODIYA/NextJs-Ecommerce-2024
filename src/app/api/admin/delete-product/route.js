@@ -1,5 +1,5 @@
 import connectToDB from "@/database";
-//import AuthUser from "@/middleware/AuthUser";
+import AuthUser from "@/middleware/AuthUser";
 import Product from "@/models/product";
 import { NextResponse } from "next/server";
 
@@ -8,9 +8,9 @@ export const dynamic = "force-dynamic";
 export async function DELETE(req) {
   try {
     await connectToDB();
-    //const isAuthUser = await AuthUser(req);
+    const isAuthUser = await AuthUser(req);
 
-    //if (isAuthUser?.role === "admin") {
+    if (isAuthUser?.role === "admin") {
       const { searchParams } = new URL(req.url);
       const id = searchParams.get("id");
 
@@ -33,12 +33,12 @@ export async function DELETE(req) {
           message: "Failed to delete the product ! Please try again",
         });
       }
-    // } else {
-    //   return NextResponse.json({
-    //     success: false,
-    //     message: "You are not authenticated",
-    //   });
-    // }
+    } else {
+      return NextResponse.json({
+        success: false,
+        message: "You are not authenticated",
+      });
+    }
   } catch (e) {
     console.log(error);
     return NextResponse.json({

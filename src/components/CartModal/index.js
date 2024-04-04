@@ -8,10 +8,11 @@ import { GlobalContext } from "@/context";
 import { deleteFromCart, getAllCartItems } from "@/services/cart";
 import { toast } from "react-toastify";
 import ComponentLevelLoader from "../Loader/componentlevel";
-//import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 
 export default function CartModal() {
-
+  const router = useRouter();
     const { showCartModal, setShowCartModal, user, cartItems, setCartItems,componentLevelLoader, setComponentLevelLoader } = useContext(GlobalContext);
 
     async function extractAllCartItems(){
@@ -25,51 +26,46 @@ export default function CartModal() {
         console.log(res);
     }
 
-    async function handleDeleteCartItem(getCartItemID) {
-        
-        setComponentLevelLoader({ loading: true, id: getCartItemID });
-        const res = await deleteFromCart(getCartItemID);
-
-        if(res.success) {
-            setComponentLevelLoader({ loading: false, id: "" });
-            // toast.success(res.message, {
-            //  position: toast.POSITION.TOP_RIGHT,
-            //  });
-            //In emitter
-toast.success(res.message, {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    });
-            extractAllCartItems();
-        } else {
-            // toast.error(res.message, {
-            // position: toast.POSITION.TOP_RIGHT,
-            // });
-            setComponentLevelLoader({ loading: false, id: getCartItemID });
-            toast.error(res.message, {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                });
-        }
-    }
-
     useEffect(()=>{
         if(user !== null) extractAllCartItems()
     },[user])
     
+    async function handleDeleteCartItem(getCartItemID) {  
+      setComponentLevelLoader({ loading: true, id: getCartItemID });
+      const res = await deleteFromCart(getCartItemID);
+
+      if(res.success) {
+          setComponentLevelLoader({ loading: false, id: "" });
+     
+          toast.success(res.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+          extractAllCartItems();
+      } else {
+        
+          setComponentLevelLoader({ loading: false, id: getCartItemID });
+          toast.error(res.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              });
+      }
+  }
+
     return (
+      
         <CommonModal 
             showButtons={true}
             show={showCartModal}
@@ -139,10 +135,10 @@ toast.success(res.message, {
                 <Fragment>
                   <button
                     type="button"
-                    // onClick={() => {
-                    //   router.push("/cart");
-                    //   setShowCartModal(false);
-                    // }}
+                    onClick={() => {
+                      router.push("/cart");
+                      setShowCartModal(false);
+                    }}
                     className="mt-1.5 w-full inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
                   >
                     Go To Cart

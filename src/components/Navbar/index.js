@@ -48,7 +48,7 @@ function NavItems({ isModalView = false, isAdminView, router }) {
 export default function Navbar() {
     const { showNavModal, setShowNavModal } = useContext(GlobalContext);
     const { isAuthUser,user,setIsAuthUser,setUser,currentUpdatedProduct,
-      setCurrentUpdatedProduct, showCartModal } = useContext(GlobalContext);
+      setCurrentUpdatedProduct, showCartModal, setShowCartModal } = useContext(GlobalContext);
     
     const router = useRouter();
     const pathName = usePathname();
@@ -101,7 +101,7 @@ export default function Navbar() {
                     className={
                       "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium upprcase tracking-wide text-white"
                     }
-                    //onClick={()=> setShowCartModal(true)}
+                    onClick={()=> setShowCartModal(true)}
                   >
                     Cart
                   </button>

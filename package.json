@@ -22,7 +22,7 @@
     "react-dom": "^18",
     "react-loader-spinner": "^6.1.6",
     "react-spinners": "^0.13.8",
-    "react-toastify": "^10.0.4",
+    "react-toastify": "^10.0.5",
     "stripe": "^14.21.0"
   },
   "devDependencies": {

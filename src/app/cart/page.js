@@ -5,7 +5,7 @@ import { GlobalContext } from "@/context";
 import { deleteFromCart, getAllCartItems } from "@/services/cart";
 import { useContext, useEffect } from "react";
 import { PulseLoader } from "react-spinners";
-//import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function Cart(){
     const { user, setCartItems, cartItems, pageLevelLoader, setPageLevelLoader, setComponentLevelLoader, componentLevelLoader } = useContext(GlobalContext);
@@ -36,7 +36,7 @@ export default function Cart(){
             setComponentLevelLoader({ loading: false, id: "" });
        
             toast.success(res.message, {
-            position: "top-center",
+            position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -50,7 +50,7 @@ export default function Cart(){
           
             setComponentLevelLoader({ loading: false, id: getCartItemID });
             toast.error(res.message, {
-                position: "top-center",
+                position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,

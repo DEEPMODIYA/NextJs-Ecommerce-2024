@@ -38,7 +38,7 @@ export default function CartModal() {
           setComponentLevelLoader({ loading: false, id: "" });
      
           toast.success(res.message, {
-          position: "top-center",
+          position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -155,7 +155,10 @@ export default function CartModal() {
                     Checkout
                   </button>
                   <div className="mt-6 flex justify-center text-center text-sm text-gray-600">
-                    <button type="button" className="font-medium text-grey">
+                    <button type="button" className="font-medium text-grey" onClick={() => {
+                      router.push("/product/listing/all-products");
+                      setShowCartModal(false);
+                    }}>
                       Continue Shopping
                       <span aria-hidden="true"> &rarr;</span>
                     </button>

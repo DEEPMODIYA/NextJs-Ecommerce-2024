@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Account() {
   const {
@@ -59,8 +60,15 @@ export default function Account() {
     if (res.success) {
       setComponentLevelLoader({ loading: false, id: "" });
       toast.success(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setAddressFormData({
         fullName: "",
         city: "",
@@ -73,8 +81,15 @@ export default function Account() {
     } else {
       setComponentLevelLoader({ loading: false, id: "" });
       toast.error(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setAddressFormData({
         fullName: "",
         city: "",
@@ -106,15 +121,29 @@ export default function Account() {
       setComponentLevelLoader({ loading: false, id: "" });
 
       toast.success(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       extractAllAddresses();
     } else {
       setComponentLevelLoader({ loading: false, id: "" });
 
       toast.error(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
     }
   }
 

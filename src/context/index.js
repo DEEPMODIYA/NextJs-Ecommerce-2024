@@ -35,14 +35,14 @@ export default function GlobalState({ children }) {
   const [currentUpdatedProduct, setCurrentUpdatedProduct] = useState(null);
   const [showCartModal, setShowCartModal] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-//   const [addresses, setAddresses] = useState([]);
-//   const [addressFormData, setAddressFormData] = useState({
-//     fullName: "",
-//     city: "",
-//     country: "",
-//     postalCode: "",
-//     address: "",
-//   });
+  const [addresses, setAddresses] = useState([]);
+  const [addressFormData, setAddressFormData] = useState({
+    fullName: "",
+    city: "",
+    country: "",
+    postalCode: "",
+    address: "",
+  });
 
 //   const [checkoutFormData, setCheckoutFormData] = useState(
 //     initialCheckoutFormData
@@ -110,10 +110,10 @@ export default function GlobalState({ children }) {
         setShowCartModal,
         cartItems,
         setCartItems,
-        // addresses,
-        // setAddresses,
-        // addressFormData,
-        // setAddressFormData,
+        addresses,
+        setAddresses,
+        addressFormData,
+        setAddressFormData,
         // checkoutFormData,
         // setCheckoutFormData,
         // allOrdersForUser,

@@ -9,7 +9,11 @@ export default function Checkout() {
 
     const {cartItems , user, setAddresses, addresses, checkoutFormData, setCheckoutFormData,} = useContext(GlobalContext);
     const [selectedAddress, setSelectedAddress] = useState(null);
-
+    const [isOrderProcessing, setIsOrderProcessing] = useState(false);
+    
+    const publishableKey = 'pk_test_51P3X8iSIc5ODEV6bXDaPTFjG3le3SJobS6kquRAvr3AaKVWblo29rmdBvdfwPKEnq06oGJrcM7QOEc1aJWgilmEY00dZxKwP9b';
+    const stripePromise = loadStripe(publishableKey)
+    
     console.log(cartItems);
 
     const router = useRouter();
@@ -51,7 +55,33 @@ export default function Checkout() {
         });
     }
 
-    console.log(checkoutFormData);
+  async function handleCheckout(){
+      const stripe = await stripePromise;
+
+      const createLineItems = cartItems.map(item=> ({
+            price_data : {
+              currency : 'usd',
+              product_data : {
+                  images : [item.productID.imageUrl],
+                  name : item.productID.name
+              },
+              unit_amount : item.productID.price * 100,
+          },
+          quantity : 1,
+      }))
+      const res = callStripeSession(createLineItems);
+      setIsOrderProcessing(true);
+      localStorage.setItem("stripe", true);
+      localStorage.setItem("checkoutFormData", JSON.stringify(checkoutFormData));
+
+      const { error } = await stripe.redirectToCheckout({
+          sessionId : res.id,
+      });
+
+      console.log(error);
+  }
+
+  console.log(checkoutFormData);
 
     return (
         
@@ -156,7 +186,7 @@ export default function Checkout() {
                   (cartItems && cartItems.length === 0) ||
                   Object.keys(checkoutFormData.shippingAddress).length === 0
                 }
-                //onClick={handleCheckout}
+                onClick={handleCheckout}
                 className="disabled:opacity-50 mt-5 mr-5 w-full  inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
               >
                 Checkout

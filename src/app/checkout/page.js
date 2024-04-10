@@ -10,6 +10,7 @@ export default function Checkout() {
     const {cartItems , user, setAddresses, addresses, checkoutFormData, setCheckoutFormData,} = useContext(GlobalContext);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [isOrderProcessing, setIsOrderProcessing] = useState(false);
+    const [ordersuccess, setOrderSuccess] = useState(false);
     
     const publishableKey = 'pk_test_51P3X8iSIc5ODEV6bXDaPTFjG3le3SJobS6kquRAvr3AaKVWblo29rmdBvdfwPKEnq06oGJrcM7QOEc1aJWgilmEY00dZxKwP9b';
     const stripePromise = loadStripe(publishableKey)
@@ -82,6 +83,19 @@ export default function Checkout() {
   }
 
   console.log(checkoutFormData);
+
+  if (isOrderProcessing) {
+    return (
+      <div className="w-full min-h-screen flex justify-center items-center">
+      <PulseLoader
+        color={"#000000"}
+        loading={isOrderProcessing}
+        size={30}
+        data-testid="loader"
+      />
+    </div>
+    );
+  }
 
     return (
         

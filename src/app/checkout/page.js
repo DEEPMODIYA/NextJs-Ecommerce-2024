@@ -2,12 +2,19 @@
 
 import { GlobalContext } from "@/context"
 import { fetchAllAddresses } from "@/services/address";
-import { useRouter } from "next/navigation";
+import { createNewOrder } from "@/services/order";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react"
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { PulseLoader } from "react-spinners";
+import Notification from "@/components/Notification";
+import { callStripeSession } from "@/services/stripe";
+import { loadStripe } from "@stripe/stripe-js";
 
 export default function Checkout() {
 
-    const {cartItems , user, setAddresses, addresses, checkoutFormData, setCheckoutFormData,} = useContext(GlobalContext);
+    const {cartItems , user, setAddresses, addresses, checkoutFormData, setCheckoutFormData } = useContext(GlobalContext);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [isOrderProcessing, setIsOrderProcessing] = useState(false);
     const [ordersuccess, setOrderSuccess] = useState(false);
@@ -18,7 +25,8 @@ export default function Checkout() {
     console.log(cartItems);
 
     const router = useRouter();
-
+    const params = useSearchParams();
+  
     async function getAllAddresses() {
         const res = await fetchAllAddresses(user?._id);
 
@@ -29,7 +37,67 @@ export default function Checkout() {
 
     useEffect(()=> {
         if(user !== null) getAllAddresses();
-    },[user]);
+    }, [user]);
+  
+  useEffect(() => {
+      
+    async function createFinalOrder() {
+      const isStripe = JSON.parse(localStorage.getItem('stripe'))
+
+      if(isStripe && params.get('status') === 'success' && cartItems && cartItems.length > 0) {
+        setIsOrderProcessing(true);
+        const getCheckoutFormData = JSON.parse(localStorage.getItem('checkoutFormData'));
+
+        const createFinalCheckoutFormData = {
+          user: user?._id,
+          shippingAddress: getCheckoutFormData.shippingAddress,
+          orderItems: cartItems.map(item => ({
+            qty: 1,
+            product : item.productID
+          })),
+          paymentMethod: 'Stripe',
+          totalPrice: cartItems.reduce(
+            (total, item) => item.productID.price + total,
+            0
+          ),
+          isPaid: true,
+          isProcessing: true,
+          paidAt : new Date()
+        }
+
+        const res = await createNewOrder(createFinalCheckoutFormData);
+     
+        if (res.success) {
+          setOrderSuccess(true);
+          setIsOrderProcessing(false);
+          toast.success(res.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+        } else {
+          setOrderSuccess(false);
+          setIsOrderProcessing(false);
+          toast.success(res.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+        }
+      }
+    }
+    createFinalOrder();
+    },[params.get('status'), cartItems])
 
     function handleSelectedAddress(getAddress){
        
@@ -70,7 +138,7 @@ export default function Checkout() {
           },
           quantity : 1,
       }))
-      const res = callStripeSession(createLineItems);
+      const res = await callStripeSession(createLineItems);
       setIsOrderProcessing(true);
       localStorage.setItem("stripe", true);
       localStorage.setItem("checkoutFormData", JSON.stringify(checkoutFormData));
@@ -83,6 +151,34 @@ export default function Checkout() {
   }
 
   console.log(checkoutFormData);
+
+  useEffect(() => {
+    if (ordersuccess)
+    {
+      setTimeout(() => { 
+        router.push("/orders");
+      }, [2000]);  
+    }
+  }, [ordersuccess]);
+
+  if (ordersuccess) {
+    return (
+      <section className="h-screen bg-gray-200">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mt-8 max-w-screen-xl px-4 sm:px-6 lg:px-8 ">
+            <div className="bg-white shadow">
+              <div className="px-4 py-6 sm:px-8 sm:py-10 flex flex-col gap-5">
+                <h1 className="font-bold text-lg">
+                  Your payment is successfull and you will be redirected to
+                  orders page in 2 seconds !
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (isOrderProcessing) {
     return (
@@ -191,7 +287,8 @@ export default function Checkout() {
                       (total, item) => item.productID.price + total,
                       0
                     )
-                  : "0"}
+                  : "0"
+                }
               </p>
             </div>
             <div className="pb-10">
@@ -208,7 +305,7 @@ export default function Checkout() {
             </div>
           </div>
         </div>
-       {/* <Notification /> */}
+       <Notification />
     </div>
   );
 }

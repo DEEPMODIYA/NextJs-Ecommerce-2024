@@ -47,16 +47,30 @@ export default function Register() {
        const data = await registerNewUser(formData);
   
       if (data.success) {
-        // toast.success(data.message, {
-        //   position: toast.POSITION.TOP_RIGHT,
-        // });
+        toast.success(data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
         setIsRegistered(true);
         setPageLevelLoader(false);
         setFormData(initialFormData);
       } else {
         toast.error(data.message, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
         setPageLevelLoader(false);
         setFormData(initialFormData);
       }

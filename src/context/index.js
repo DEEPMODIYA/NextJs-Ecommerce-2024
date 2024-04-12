@@ -15,17 +15,17 @@ export const initialCheckoutFormData = {
   isProcessing: true,
 };
 
-// const protectedRoutes = ["cart", "checkout", "account", "orders", "admin-view"];
+ const protectedRoutes = ["cart", "checkout", "account", "orders", "admin-view"];
 
-// const protectedAdminRoutes = [
-//   "/admin-view",
-//   "/admin-view/add-product",
-//   "/admin-view/all-products",
-// ];
+const protectedAdminRoutes = [
+  "/admin-view",
+  "/admin-view/add-product",
+  "/admin-view/all-products",
+];
 
 export default function GlobalState({ children }) {
   const [showNavModal, setShowNavModal] = useState(false);
-  const [pageLevelLoader, setPageLevelLoader] = useState(true);
+  const [pageLevelLoader, setPageLevelLoader] = useState(false);
   const [componentLevelLoader, setComponentLevelLoader] = useState({
     loading: false,
     id: "",
@@ -64,32 +64,32 @@ export default function GlobalState({ children }) {
       setCartItems(getCartItems);
     } else {
       setIsAuthUser(false);
-      //setUser({}); //unauthenticated user
+      setUser({}); //unauthenticated user
     }
   }, [Cookies]);
 
-//   useEffect(() => {
-//     if (
-//       pathName !== "/register" &&
-//       !pathName.includes("product") &&
-//       pathName !== "/" &&
-//       user &&
-//       Object.keys(user).length === 0 &&
-//       protectedRoutes.includes(pathName) > -1
-//     )
-//       router.push("/login");
-//   }, [user, pathName]);
+  useEffect(() => {
+    if (
+      pathName !== "/register" &&
+      !pathName.includes("product") &&
+      pathName !== "/" &&
+      user &&
+      Object.keys(user).length === 0 &&
+      protectedRoutes.includes(pathName) > -1
+    )
+      router.push("/login");
+  }, [user, pathName]);
 
-//   useEffect(() => {
-//     if (
-//       user !== null &&
-//       user &&
-//       Object.keys(user).length > 0 &&
-//       user?.role !== "admin" &&
-//       protectedAdminRoutes.indexOf(pathName) > -1
-//     )
-//       router.push("/unauthorized-page");
-//   }, [user, pathName]);
+  useEffect(() => {
+    if (
+      user !== null &&
+      user &&
+      Object.keys(user).length > 0 &&
+      user?.role !== "admin" &&
+      protectedAdminRoutes.indexOf(pathName) > -1
+    )
+      router.push("/unauthorized");
+  }, [user, pathName]);
 
   return (
     <GlobalContext.Provider

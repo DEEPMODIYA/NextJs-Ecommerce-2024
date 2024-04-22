@@ -3,11 +3,11 @@
 import { useRouter } from "next/navigation";
 import ComponentLevelLoader from "../Loader/componentlevel";
 
- export default function CommonCart({
-   cartItems = [],
+export default function CommonCart({
+  cartItems = [],
   handleDeleteCartItem,
   componentLevelLoader,
- }) {
+}) {
 
   const router = useRouter()
 
@@ -73,7 +73,6 @@ import ComponentLevelLoader from "../Loader/componentlevel";
                                 ) : (
                                   "Remove"
                                 )}
-                                
                               </button>
                             </div>
                           </div>

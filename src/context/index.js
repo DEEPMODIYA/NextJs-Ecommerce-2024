@@ -15,7 +15,7 @@ export const initialCheckoutFormData = {
   isProcessing: true,
 };
 
- const protectedRoutes = ["cart", "checkout", "account", "orders", "admin-view"];
+const protectedRoutes = ["cart", "checkout", "account", "orders", "admin-view"];
 
 const protectedAdminRoutes = [
   "/admin-view",
@@ -25,7 +25,7 @@ const protectedAdminRoutes = [
 
 export default function GlobalState({ children }) {
   const [showNavModal, setShowNavModal] = useState(false);
-  const [pageLevelLoader, setPageLevelLoader] = useState(false);
+  const [pageLevelLoader, setPageLevelLoader] = useState(true);
   const [componentLevelLoader, setComponentLevelLoader] = useState({
     loading: false,
     id: "",
@@ -48,9 +48,9 @@ export default function GlobalState({ children }) {
     initialCheckoutFormData
   );
 
-//   const [allOrdersForUser, setAllOrdersForUser] = useState([]);
-//   const [orderDetails, setOrderDetails] = useState(null);
-//   const [allOrdersForAllUsers, setAllOrdersForAllUsers] = useState([]);
+  const [allOrdersForUser, setAllOrdersForUser] = useState([]);
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [allOrdersForAllUsers, setAllOrdersForAllUsers] = useState([]);
 
   const router = useRouter();
   const pathName = usePathname();
@@ -88,7 +88,7 @@ export default function GlobalState({ children }) {
       user?.role !== "admin" &&
       protectedAdminRoutes.indexOf(pathName) > -1
     )
-      router.push("/unauthorized");
+      router.push("/unauthorized-page");
   }, [user, pathName]);
 
   return (
@@ -116,12 +116,12 @@ export default function GlobalState({ children }) {
         setAddressFormData,
         checkoutFormData,
         setCheckoutFormData,
-        // allOrdersForUser,
-        // setAllOrdersForUser,
-        // orderDetails,
-        // setOrderDetails,
-        // allOrdersForAllUsers,
-        // setAllOrdersForAllUsers,
+        allOrdersForUser,
+        setAllOrdersForUser,
+        orderDetails,
+        setOrderDetails,
+        allOrdersForAllUsers,
+        setAllOrdersForAllUsers,
       }}
     >
       {children}

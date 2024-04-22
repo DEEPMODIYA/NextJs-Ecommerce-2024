@@ -70,12 +70,12 @@ export const getAllOrdersForAllUsers = async () => {
   }
 };
 
-export const updateStatusOfOrder = async () => {
+export const updateStatusOfOrder = async (formData) => {
   try {
     const res = await fetch(`/api/admin/orders/update-order`, {
       method: "PUT",
       headers: {
-        "Content-Type" : 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${Cookies.get("token")}`,
       },
       body: JSON.stringify(formData),

@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "packageManager": "pnpm@8.11.0",
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@stripe/stripe-js": "^3.0.10",

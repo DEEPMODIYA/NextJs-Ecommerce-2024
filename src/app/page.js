@@ -69,7 +69,7 @@ export default function Home() {
                   onClick={() => router.push("/product/listing/all-products")}
                   className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
                 >
-                  Shop ALL RE
+                  Shop ALL 
                 </button>
               </div>
             </div>

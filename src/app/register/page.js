@@ -1,5 +1,6 @@
 "use client";
 
+import 'react-toastify/dist/ReactToastify.css';
 import InputComponent from "@/components/FormElements/InputComponent";
 import SelectComponent from "@/components/FormElements/SelectComponent";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
@@ -155,6 +156,7 @@ export default function Register() {
             </div>
           </div>
         </div>
+        <Notification/>
       </div>
     );
   }

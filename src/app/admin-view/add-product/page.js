@@ -1,5 +1,6 @@
 "use client";
 
+import 'react-toastify/dist/ReactToastify.css';
 import InputComponent from "@/components/FormElements/InputComponent";
 import SelectComponent from "@/components/FormElements/SelectComponent";
 import TileComponent from "@/components/FormElements/TileComponent";
@@ -127,9 +128,16 @@ export default function AdminAddNewProduct() {
 
     if (res.success) {
       setComponentLevelLoader({ loading: false, id: "" });
-      // toast.success(res.message, {
-      //   position: toast.POSITION.TOP_RIGHT,
-      // });
+      toast.success(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
 
       setFormData(initialFormData);
       setCurrentUpdatedProduct(null)
@@ -137,9 +145,16 @@ export default function AdminAddNewProduct() {
         router.push("/admin-view/all-products");
       }, 1000);
     } else {
-      // toast.error(res.message, {
-      //   position: toast.POSITION.TOP_RIGHT,
-      // });
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setComponentLevelLoader({ loading: false, id: "" });
       setFormData(initialFormData);
     }

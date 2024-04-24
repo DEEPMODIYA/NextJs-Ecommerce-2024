@@ -1,8 +1,9 @@
 "use client";
 
+import 'react-toastify/dist/ReactToastify.css';
 import { GlobalContext } from "@/context";
 import { useContext } from "react";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import ComponentLevelLoader from "../Loader/componentlevel";
 import { addToCart } from "@/services/cart";
 import Notification from "../Notification";
@@ -21,15 +22,29 @@ export default function CommonDetails({ item }) {
     const res = await addToCart({ productID: getItem._id, userID: user._id });
 
        if (res.success) {
-//       toast.success(res.message, {
-//         position: toast.POSITION.TOP_RIGHT,
-//       });
+        toast.success(res.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
       setComponentLevelLoader({ loading: false, id: "" });
       setShowCartModal(true);
     } else {
-//       toast.error(res.message, {
-//         position: toast.POSITION.TOP_RIGHT,
-//       });
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setComponentLevelLoader({ loading: false, id: "" });
       setShowCartModal(true);
     }
@@ -106,7 +121,6 @@ export default function CommonDetails({ item }) {
                 ) : (
                   "Add to Cart"
                 )}
-                Add to Cart
               </button>
             </div>
             <ul className="mt-8 space-y-2">

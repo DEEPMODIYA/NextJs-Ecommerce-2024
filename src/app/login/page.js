@@ -1,5 +1,6 @@
 "use client";
 
+import 'react-toastify/dist/ReactToastify.css';
 import InputComponent from "@/components/FormElements/InputComponent";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
 import Notification from "@/components/Notification";
@@ -49,8 +50,15 @@ export default function Login() {
 
     if (res.success) {
       toast.success(res.message, {
-        // position: toast.POSITION.TOP_RIGHT,
-      });
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setIsAuthUser(true);
       setUser(res?.finalData?.user);
       setFormData(initialFormdata);
@@ -59,8 +67,15 @@ export default function Login() {
       setComponentLevelLoader({ loading: false, id: "" });
     } else {
       toast.error(res.message, {
-        // position: toast.POSITION.TOP_RIGHT,
-      });
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       setIsAuthUser(false);
       setComponentLevelLoader({ loading: false, id: "" });
     }
